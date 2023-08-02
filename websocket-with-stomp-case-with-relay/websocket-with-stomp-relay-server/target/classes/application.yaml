@@ -1,0 +1,12 @@
+chat:
+  application-prefix: '/app'
+  allowed-origins: 'http://localhost:4200'
+  destination-prefixes: /topic
+  ws-endpoint: '/with-stomp/chat'
+  relay-servers:
+    - host: localhost
+      port: 61614
+      username: admin
+      password: admin
+
+logging.level.org.springframework.web: DEBUG

@@ -1,0 +1,3 @@
+chat:
+  cors:
+    allowed-origins: 'http://localhost:4200'

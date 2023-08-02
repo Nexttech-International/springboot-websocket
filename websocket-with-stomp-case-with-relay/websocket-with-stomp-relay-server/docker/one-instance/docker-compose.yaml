@@ -1,0 +1,12 @@
+services:
+  activemq-node1:
+    build:
+      context: activemq
+    ports:
+      - 61614:61613
+      - 61617:61616
+      - 8162:8161
+    networks:
+      - nt-websocket-service
+networks:
+  nt-websocket-service:

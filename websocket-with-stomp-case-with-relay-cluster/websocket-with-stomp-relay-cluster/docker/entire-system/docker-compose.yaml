@@ -1,0 +1,82 @@
+services:
+  activemq-node1:
+    build: activemq
+    depends_on:
+      - mariadb
+    ports:
+      - 61614:61613
+      - 61617:61616
+      - 8162:8161
+    environment:
+      WAIT_HOSTS: mariadb:3306
+    secrets:
+      - source: config-node1
+        target: /opt/activemq/conf/activemq.xml
+    networks:
+      - nt-cluster-websocket-service
+  activemq-node2:
+    build: activemq
+    depends_on:
+      - activemq-node1
+    ports:
+      - 61615:61613
+      - 61618:61616
+      - 8163:8161
+    environment:
+      WAIT_HOSTS: mariadb:3306
+    secrets:
+      - source: config-node2
+        target: /opt/activemq/conf/activemq.xml
+    networks:
+      - nt-cluster-websocket-service
+  mariadb:
+    build: ./mariadb
+    environment:
+      TZ: Europe/Bucharest
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_USER: activemq
+      MARIADB_PASSWORD: activemq
+      MARIADB_DATABASE: activemq
+    networks:
+      - nt-cluster-websocket-service
+  websocket-service-node1:
+    build: ./websocket-service
+    ports:
+      - 8080:8080
+    environment:
+      WAIT_HOSTS: activemq-node1,activemq-node1
+      ACTIVE_PROFILE: docker
+    networks:
+      - nt-cluster-websocket-service
+  websocket-service-node2:
+    build: ./websocket-service
+    ports:
+      - 8081:8080
+    environment:
+      WAIT_HOSTS: activemq-node1,activemq-node1
+      ACTIVE_PROFILE: docker
+    networks:
+      - nt-cluster-websocket-service
+  websocket-service-node3:
+    build: ./websocket-service
+    ports:
+      - 8082:8080
+    environment:
+      WAIT_HOSTS: activemq-node1,activemq-node1
+      ACTIVE_PROFILE: docker
+    networks:
+      - nt-cluster-websocket-service
+  nginx-proxy:
+    build: ./nginx
+    ports:
+      - 80:80
+    networks:
+      - nt-cluster-websocket-service
+secrets:
+  config-node1:
+    file: ./config/activemq-node1.xml
+  config-node2:
+    file: ./config/activemq-node2.xml
+
+networks:
+  nt-cluster-websocket-service:

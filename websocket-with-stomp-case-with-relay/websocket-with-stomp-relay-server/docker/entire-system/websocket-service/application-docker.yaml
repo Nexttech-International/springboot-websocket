@@ -1,0 +1,12 @@
+chat:
+  application-prefix: '/app'
+  allowed-origins: 'http://localhost:4200'
+  destination-prefixes: /topic
+  ws-endpoint: '/with-stomp/chat'
+  relay-servers:
+    - host: activemq-node1
+      port: 61613
+      username: admin
+      password: admin
+
+logging.level.org.springframework.web: DEBUG

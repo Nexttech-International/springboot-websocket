@@ -1,0 +1,27 @@
+services:
+  nginx-proxy:
+    build: ./nginx
+    ports:
+      - 80:80
+    networks:
+      - nt-system-websocket-service
+  websocket-service-node1:
+    build: ./websocket-service
+    environment:
+      ACTIVE_PROFILE: docker
+    networks:
+      - nt-system-websocket-service
+  websocket-service-node2:
+    build: ./websocket-service
+    environment:
+      ACTIVE_PROFILE: docker
+    networks:
+      - nt-system-websocket-service
+  websocket-service-node3:
+    build: ./websocket-service
+    environment:
+      ACTIVE_PROFILE: docker
+    networks:
+      - nt-system-websocket-service
+networks:
+  nt-system-websocket-service:

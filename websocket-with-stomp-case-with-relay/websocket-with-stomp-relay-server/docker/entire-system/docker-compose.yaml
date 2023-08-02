@@ -1,0 +1,38 @@
+services:
+  activemq-node1:
+    build: activemq
+    ports:
+      - 61614:61613
+      - 61617:61616
+      - 8162:8161
+    networks:
+      - nt-system-websocket-service
+  nginx-proxy:
+    build: ./nginx
+    ports:
+      - 80:80
+    networks:
+      - nt-system-websocket-service
+  websocket-service-node1:
+    build: ./websocket-service
+    environment:
+      WAIT_HOSTS: activemq-node1
+      ACTIVE_PROFILE: docker
+    networks:
+      - nt-system-websocket-service
+  websocket-service-node2:
+    build: ./websocket-service
+    environment:
+      WAIT_HOSTS: activemq-node1
+      ACTIVE_PROFILE: docker
+    networks:
+      - nt-system-websocket-service
+  websocket-service-node3:
+    build: ./websocket-service
+    environment:
+      WAIT_HOSTS: activemq-node1
+      ACTIVE_PROFILE: docker
+    networks:
+      - nt-system-websocket-service
+networks:
+  nt-system-websocket-service:
