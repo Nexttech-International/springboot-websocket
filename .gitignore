@@ -36,6 +36,9 @@ replay_pid*
 *tmp
 *out-tsc
 *bazel-out
+*.angular
+
+*.vscode
 
 # Node
 *node_modules

@@ -1,0 +1,55 @@
+<div style="padding: 20px">
+  <div [formGroup]="chatFormGroup" class="flex-col gap-10">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Let's connect</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div>
+          <mat-form-field class="width-100">
+            <input
+              matInput
+              type="text"
+              placeholder="Enter your name"
+              formControlName="name"
+            />
+          </mat-form-field>
+        </div>
+
+        <div class="flex gap-10">
+          <button mat-raised-button (click)="connect()" [disabled]="connected">Connect</button>
+          <button mat-raised-button (click)="disconnect()" [disabled]="!connected">Disconnect</button>
+          <button mat-raised-button (click)="subscribe()" [disabled]="!connected">Subscribe</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <div class="flex gap-10">
+      <mat-form-field class="width-100">
+        <input
+          matInput
+          type="text"
+          placeholder="Enter your message"
+          formControlName="text"
+          (keyup.enter)="sendMessage()"
+        />
+      </mat-form-field>
+
+<!--      <button mat-raised-button (click)="sendMessage()" [disabled]="!connected">Send message</button>-->
+    </div>
+  </div>
+
+  <div *ngIf="messages.length">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Messages</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <mat-list>
+          <app-chat-message *ngFor="let message of messages" [message]="message"></app-chat-message>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
